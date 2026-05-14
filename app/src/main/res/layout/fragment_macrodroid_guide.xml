@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="إعداد MacroDroid (مرة واحدة)"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_primary"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp" />
+
+        <TextView
+            android:id="@+id/tv_subtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="اتبع الخطوات التالية في MacroDroid لإنشاء الـ Macro مرة واحدة فقط"
+            android:textSize="13sp"
+            android:textColor="@color/text_secondary"
+            app:layout_constraintTop_toBottomOf="@id/tv_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="6dp" />
+
+        <!-- Steps card -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_steps"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="3dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_subtitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="📱 في تطبيق MacroDroid:"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/primary" />
+
+                <TextView
+                    android:id="@+id/tv_steps"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textSize="13sp"
+                    android:textColor="@color/text_primary"
+                    android:lineSpacingMultiplier="1.6"
+                    android:text="1. افتح MacroDroid ← اضغط ＋ لإنشاء Macro جديد\n\n2. اسم الـ Macro: BOP Transfer\n\n3. Triggers ← Add ← Intent Received\n   Action: com.pal.ussd.START_TRANSFER\n\n4. Actions ← Add ← Phone ← Make Phone Call\n   Number: *267#\n\n5. Actions ← Add ← Wait 3 seconds\n\n6. Actions ← Add ← UI Interaction ← Set Clipboard\n   Text: {lv_menuPin}\n   ثم: UI Interaction ← Enter text in popup\n   Paste from clipboard + Click OK\n\n7. كرر نفس الفكرة لكل خطوة:\n   • # (المزيد)\n   • 3 (دفع الى)\n   • 1 (صديق)\n   • {lv_recipient} (رقم المستقبل)\n   • 1 (تأكيد الاسم)\n   • {lv_amount} (المبلغ)\n   • 1 (رقم الحساب)\n   • {lv_transferPin} (رمز التأكيد)\n\n8. Variables ← Add Local Variable:\n   • lv_menuPin = الرقم السري للقائمة\n   • lv_transferPin = رمز التأكيد\n   • lv_recipient = (تُملأ من Intent تلقائياً)\n   • lv_amount = (تُملأ من Intent تلقائياً)" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Intent variables card -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_intent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="3dp"
+            app:cardBackgroundColor="#FFF8E1"
+            app:layout_constraintTop_toBottomOf="@id/card_steps"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="12dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="⚡ في الـ Intent Received Trigger:"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:textColor="#E65100" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textSize="12sp"
+                    android:textColor="@color/text_primary"
+                    android:lineSpacingMultiplier="1.5"
+                    android:text="بعد إضافة Trigger → Intent Received:\n\n• فعّل: Read Intent Variables\n• Variable 1: recipient ← Extra Key: recipient\n• Variable 2: amount ← Extra Key: amount\n\nسيبعث تطبيقنا هاتين القيمتين تلقائياً." />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_open_macrodroid"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="فتح MacroDroid الآن"
+            android:layout_marginTop="16dp"
+            app:cornerRadius="12dp"
+            app:layout_constraintTop_toBottomOf="@id/card_intent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_done"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="تم الإعداد — ابدأ التحويل"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            app:cornerRadius="12dp"
+            app:layout_constraintTop_toBottomOf="@id/btn_open_macrodroid"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

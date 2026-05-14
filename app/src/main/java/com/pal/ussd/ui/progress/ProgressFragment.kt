@@ -93,11 +93,23 @@ class ProgressFragment : Fragment() {
     }
 
     private fun checkAccessibilityAndStart() {
-        if (isAccessibilityEnabled()) {
-            startExecution()
-        } else {
-            showAccessibilityDialog()
+        when {
+            viewModel.macroDroidInstalled -> startViaMacroDroid()
+            isAccessibilityEnabled() -> startExecution()
+            else -> showAccessibilityDialog()
         }
+    }
+
+    private fun startViaMacroDroid() {
+        viewModel.startTransferViaMacroDroid(recipient, amount)
+        binding.tvTitle.text = "تم إرسال الطلب لـ MacroDroid ✓"
+        binding.progressBar.visibility = View.GONE
+        binding.tvResult.text = "MacroDroid يتولى التنفيذ الآن\nراقب شاشة جوالك"
+        binding.tvResult.setTextColor(
+            androidx.core.content.ContextCompat.getColor(requireContext(), R.color.primary)
+        )
+        binding.tvResult.visibility = View.VISIBLE
+        binding.btnBack.visibility = View.VISIBLE
     }
 
     private fun isAccessibilityEnabled(): Boolean {
