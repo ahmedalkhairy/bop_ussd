@@ -11,7 +11,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.pal.ussd.R
 import com.pal.ussd.databinding.FragmentProgressBinding
 
@@ -20,8 +19,10 @@ class ProgressFragment : Fragment() {
     private var _binding: FragmentProgressBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ProgressViewModel by viewModels()
-    private val args: ProgressFragmentArgs by navArgs()
     private val adapter = StepsAdapter()
+
+    private val recipient: String by lazy { arguments?.getString("recipient") ?: "" }
+    private val amount: String by lazy { arguments?.getString("amount") ?: "" }
 
     private val requestPermission = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -86,7 +87,7 @@ class ProgressFragment : Fragment() {
     }
 
     private fun startExecution() {
-        viewModel.startTransfer(args.recipient, args.amount)
+        viewModel.startTransfer(recipient, amount)
     }
 
     private fun showError(message: String) {

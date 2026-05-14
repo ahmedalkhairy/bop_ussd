@@ -53,11 +53,11 @@ class TransferFragment : Fragment() {
 
         viewModel.navigateToProgress.observe(viewLifecycleOwner) { pair ->
             if (pair != null) {
-                val action = TransferFragmentDirections.actionTransferToProgress(
-                    recipient = pair.first,
-                    amount = pair.second
-                )
-                findNavController().navigate(action)
+                val bundle = Bundle().apply {
+                    putString("recipient", pair.first)
+                    putString("amount", pair.second)
+                }
+                findNavController().navigate(R.id.action_transfer_to_progress, bundle)
                 viewModel.onNavigated()
             }
         }
