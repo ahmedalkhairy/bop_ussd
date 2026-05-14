@@ -24,6 +24,12 @@
     <string name="progress_failed">فشل التحويل</string>
     <string name="btn_back_home">العودة للرئيسية</string>
 
+    <!-- Accessibility -->
+    <string name="accessibility_service_description">يسمح للتطبيق بملء خطوات USSD تلقائياً دون تدخل المستخدم</string>
+    <string name="accessibility_required_title">تفعيل الخدمة المساعدة</string>
+    <string name="accessibility_required_msg">لتشغيل التحويل تلقائياً، فعّل خدمة \"بنك فلسطين USSD\" في إعدادات ← إمكانية الوصول</string>
+    <string name="btn_open_accessibility">فتح الإعدادات</string>
+
     <!-- Errors -->
     <string name="error_permission">يرجى منح صلاحية الاتصال</string>
     <string name="error_empty_fields">يرجى ملء جميع الحقول</string>

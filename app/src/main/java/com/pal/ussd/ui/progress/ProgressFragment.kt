@@ -1,18 +1,24 @@
 package com.pal.ussd.ui.progress
 
 import android.Manifest
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.pal.ussd.R
 import com.pal.ussd.databinding.FragmentProgressBinding
+import com.pal.ussd.ussd.UssdAccessibilityService
 
 class ProgressFragment : Fragment() {
 
@@ -27,7 +33,7 @@ class ProgressFragment : Fragment() {
     private val requestPermission = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { granted ->
-        if (granted) startExecution()
+        if (granted) checkAccessibilityAndStart()
         else showError(getString(R.string.error_permission))
     }
 
@@ -80,10 +86,44 @@ class ProgressFragment : Fragment() {
                 requireContext(), Manifest.permission.CALL_PHONE
             ) == PackageManager.PERMISSION_GRANTED
         ) {
-            startExecution()
+            checkAccessibilityAndStart()
         } else {
             requestPermission.launch(Manifest.permission.CALL_PHONE)
         }
+    }
+
+    private fun checkAccessibilityAndStart() {
+        if (isAccessibilityEnabled()) {
+            startExecution()
+        } else {
+            showAccessibilityDialog()
+        }
+    }
+
+    private fun isAccessibilityEnabled(): Boolean {
+        val expectedComponent = ComponentName(requireContext(), UssdAccessibilityService::class.java)
+        val enabledServices = Settings.Secure.getString(
+            requireContext().contentResolver,
+            Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES
+        ) ?: return false
+        return enabledServices.split(":").any { it.equals(expectedComponent.flattenToString(), ignoreCase = true) }
+    }
+
+    private fun showAccessibilityDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle(getString(R.string.accessibility_required_title))
+            .setMessage(getString(R.string.accessibility_required_msg))
+            .setPositiveButton(getString(R.string.btn_open_accessibility)) { _, _ ->
+                startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                })
+            }
+            .setNegativeButton("تخطي — جرب بدونها") { _, _ ->
+                // Try anyway with TelephonyManager only
+                startExecution()
+            }
+            .setCancelable(false)
+            .show()
     }
 
     private fun startExecution() {
