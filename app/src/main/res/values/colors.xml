@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#1A6B3C</color>
+    <color name="primary_dark">#0F4A29</color>
+    <color name="primary_container">#C8F0D8</color>
+    <color name="on_primary">#FFFFFF</color>
+    <color name="secondary">#4A90D9</color>
+    <color name="background">#F5F7FA</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="step_pending">#BDBDBD</color>
+    <color name="step_running">#FF9800</color>
+    <color name="step_done">#4CAF50</color>
+    <color name="step_failed">#F44336</color>
+    <color name="text_primary">#1A1A2E</color>
+    <color name="text_secondary">#666666</color>
+</resources>
